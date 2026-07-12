@@ -1,87 +1,90 @@
 <!DOCTYPE html>
 <html lang="es">
-  <head>
+
+<head>
     <meta charset="UTF-8" />
     <link rel="stylesheet" href="popup.css" />
-  </head>
-  <body>
+</head>
+
+<body>
     <div class="app" id="app" data-state="loading">
-      <header class="header">
-        <div class="brand">
-          <img src="icons/icon-activo-48.png" alt="" class="brand__logo" />
-          <span class="brand__name">Tailwind Detector</span>
-        </div>
-        <button
-          id="themeToggle"
-          class="icon-btn"
-          aria-label="Cambiar tema"
-          title="Cambiar tema"
-        >
-          <svg class="icon icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="4"></circle>
-            <path d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41"></path>
-          </svg>
-          <svg class="icon icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-          </svg>
-        </button>
-      </header>
+        <header class="header">
+            <div class="brand">
+                <img src="icons/icon-activo-48.png" alt="" class="brand__logo" />
+                <span class="brand__name">Tailwind Detector</span>
+            </div>
+            <button id="themeToggle" class="icon-btn" aria-label="Cambiar tema" title="Cambiar tema">
+                <svg class="icon icon--sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <circle cx="12" cy="12" r="4"></circle>
+                    <path
+                        d="M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41">
+                    </path>
+                </svg>
+                <svg class="icon icon--moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+                </svg>
+            </button>
+        </header>
 
-      <main class="hero">
-        <div class="orb" id="orb">
-          <div class="orb__glow"></div>
-          <div class="orb__ring"></div>
+        <main class="hero">
+            <div class="orb" id="orb">
+                <div class="orb__glow"></div>
+                <div class="orb__ring"></div>
 
-          <svg class="orb__icon orb__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M5 12.5l4.5 4.5L19 7.5" />
-          </svg>
+                <svg class="orb__icon orb__icon--check" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M5 12.5l4.5 4.5L19 7.5" />
+                </svg>
 
-          <svg class="orb__icon orb__icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <circle cx="11" cy="11" r="7"></circle>
-            <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
-          </svg>
+                <svg class="orb__icon orb__icon--search" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <circle cx="11" cy="11" r="7"></circle>
+                    <line x1="21" y1="21" x2="16.5" y2="16.5"></line>
+                </svg>
 
-          <svg class="orb__icon orb__icon--shield" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-            <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"></path>
-          </svg>
+                <svg class="orb__icon orb__icon--shield" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                    stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                    <path d="M12 3l8 3v6c0 5-3.5 8.5-8 9-4.5-.5-8-4-8-9V6l8-3z"></path>
+                </svg>
 
-          <div class="orb__spinner"></div>
-        </div>
+                <div class="orb__spinner"></div>
+            </div>
 
-        <div class="status">
-          <div class="status__header">
-            <h1 class="status__title" id="statusTitle">Analizando…</h1>
-            <span class="status__pill" id="versionPill" hidden>
-              <span id="versionValue">—</span>
-            </span>
-          </div>
-          <div class="status__host" id="statusHost">
-            <svg class="status__host-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
-              <circle cx="12" cy="12" r="9"></circle>
-              <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
-            </svg>
-            <span id="hostValue">—</span>
-          </div>
-        </div>
-      </main>
+            <div class="status">
+                <div class="status__header">
+                    <h1 class="status__title" id="statusTitle">Analizando…</h1>
+                    <span class="status__pill" id="versionPill" hidden>
+                        <span id="versionValue">—</span>
+                    </span>
+                </div>
+                <div class="status__host" id="statusHost">
+                    <svg class="status__host-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+                        <circle cx="12" cy="12" r="9"></circle>
+                        <path d="M3 12h18M12 3a14 14 0 0 1 0 18M12 3a14 14 0 0 0 0 18"></path>
+                    </svg>
+                    <span id="hostValue">—</span>
+                </div>
+            </div>
+        </main>
 
-      <div class="note" id="note" hidden>
-        <span id="noteText"></span>
-      </div>
-
-      <footer class="footer">
-        <button id="refreshBtn" class="btn">
-          <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M3 12a9 9 0 0 1 15.5-6.3L21 8" />
-            <path d="M21 3v5h-5" />
-            <path d="M21 12a9 9 0 0 1-15.5 6.3L3 16" />
-            <path d="M8 21H3v-5" />
-          </svg>
-          <span>Volver a analizar</span>
-        </button>
-      </footer>
+        <footer class="footer">
+            <button id="refreshBtn" class="btn">
+                <svg class="btn__icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                    stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M3 12a9 9 0 0 1 15.5-6.3L21 8" />
+                    <path d="M21 3v5h-5" />
+                    <path d="M21 12a9 9 0 0 1-15.5 6.3L3 16" />
+                    <path d="M8 21H3v-5" />
+                </svg>
+                <span>Volver a analizar</span>
+            </button>
+        </footer>
     </div>
 
     <script src="popup.js"></script>
-  </body>
+</body>
+
 </html>

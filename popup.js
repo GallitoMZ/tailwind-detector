@@ -6,10 +6,11 @@ const statusTitle = $('statusTitle');
 const versionPill = $('versionPill');
 const versionValue = $('versionValue');
 const hostValue = $('hostValue');
-const note = $('note');
-const noteText = $('noteText');
 const refreshBtn = $('refreshBtn');
 const themeToggle = $('themeToggle');
+
+const isRestrictedUrl = (url) =>
+    !url || /^(chrome|edge|about|chrome-extension):/i.test(url);
 
 // -------- Tema ----------
 async function initTheme() {
@@ -30,27 +31,13 @@ themeToggle.addEventListener('click', async () => {
 });
 
 // -------- Render ----------
-function setNote(html) {
-    if (!html) {
-        note.hidden = true;
-        noteText.innerHTML = '';
-        return;
-    }
-    noteText.innerHTML = html;
-    note.hidden = false;
-}
-
 function renderStatus(data) {
-    // Página del navegador o inaccesible
     if (!data) {
         app.dataset.state = 'unavailable';
         statusTitle.textContent = 'Análisis no disponible';
-        hostValue.textContent = 'Página protegida del navegador';
+        hostValue.textContent = 'Página protegida';
         hostValue.title = '';
         versionPill.hidden = true;
-        setNote(
-            'Chrome no permite ejecutar extensiones en páginas internas como <strong>chrome://</strong>, <strong>about:</strong> o la Web Store. Abre esta extensión en cualquier otra pestaña.'
-        );
         return;
     }
 
@@ -63,37 +50,14 @@ function renderStatus(data) {
                 ? `v${data.major}.x`
                 : '';
         versionPill.hidden = !(data.version || data.major);
-        hostValue.textContent = data.hostname || '—';
-        hostValue.title = data.hostname || '';
-
-        if (data.version) {
-            setNote(null);
-        } else if (data.major) {
-            setNote(
-                `Se detectó Tailwind <strong>v${data.major}</strong> por firmas del CSS. La versión exacta no está disponible (probablemente el build eliminó los comentarios).`
-            );
-        } else {
-            setNote(null);
-        }
     } else {
         app.dataset.state = 'not-detected';
         statusTitle.textContent = 'Tailwind no encontrado';
         versionPill.hidden = true;
-        hostValue.textContent = data.hostname || '—';
-        hostValue.title = data.hostname || '';
-
-        const count = data.stylesheetsCount ?? 0;
-        if (count === 0) {
-            setNote(
-                'No se encontraron hojas de estilo en esta página. Si el sitio aún está cargando, vuelve a analizar en unos segundos.'
-            );
-        } else {
-            setNote(
-                `Se revisaron <strong>${count}</strong> ${count === 1 ? 'hoja de estilo' : 'hojas de estilo'
-                } y ninguna contiene firmas de Tailwind CSS.`
-            );
-        }
     }
+
+    hostValue.textContent = data.hostname || '—';
+    hostValue.title = data.hostname || '';
 }
 
 // -------- Comunicación ----------
@@ -102,21 +66,66 @@ async function getActiveTab() {
     return tab;
 }
 
-async function requestStatus(type = 'GET_STATUS') {
+async function getCachedStatus(tabId) {
+    try {
+        return await chrome.runtime.sendMessage({
+            type: 'GET_CACHED_STATUS',
+            tabId,
+        });
+    } catch {
+        return null;
+    }
+}
+
+async function requestFreshStatus(tabId, type = 'GET_STATUS') {
+    try {
+        return await chrome.tabs.sendMessage(tabId, { type });
+    } catch {
+        return null;
+    }
+}
+
+// Compara sin timestamp para evitar re-renders innecesarios
+function statusEquals(a, b) {
+    if (!a || !b) return a === b;
+    return (
+        a.detected === b.detected &&
+        a.version === b.version &&
+        a.major === b.major &&
+        a.hostname === b.hostname
+    );
+}
+
+async function loadStatus({ forceFresh = false } = {}) {
     const tab = await getActiveTab();
-    if (
-        !tab?.id ||
-        !tab.url ||
-        /^(chrome|edge|about|chrome-extension):/i.test(tab.url)
-    ) {
+
+    if (!tab?.id || isRestrictedUrl(tab.url)) {
         renderStatus(null);
         return;
     }
 
-    try {
-        const response = await chrome.tabs.sendMessage(tab.id, { type });
-        renderStatus(response);
-    } catch {
+    let displayed = null;
+
+    // 1. Mostrar cache inmediatamente si existe
+    if (!forceFresh) {
+        const cached = await getCachedStatus(tab.id);
+        if (cached) {
+            renderStatus(cached);
+            displayed = cached;
+        }
+    }
+
+    // 2. Pedir estado fresco al content script y actualizar solo si cambió
+    const fresh = await requestFreshStatus(
+        tab.id,
+        forceFresh ? 'REFRESH' : 'GET_STATUS'
+    );
+
+    if (fresh) {
+        if (!statusEquals(displayed, fresh)) {
+            renderStatus(fresh);
+        }
+    } else if (!displayed) {
         renderStatus(null);
     }
 }
@@ -126,10 +135,9 @@ refreshBtn.addEventListener('click', async () => {
     app.dataset.state = 'loading';
     statusTitle.textContent = 'Analizando…';
     versionPill.hidden = true;
-    setNote(null);
 
     await new Promise((r) => setTimeout(r, 400));
-    await requestStatus('REFRESH');
+    await loadStatus({ forceFresh: true });
 
     setTimeout(() => refreshBtn.classList.remove('is-refreshing'), 500);
 });
@@ -137,5 +145,5 @@ refreshBtn.addEventListener('click', async () => {
 // -------- Init ----------
 (async function init() {
     await initTheme();
-    await requestStatus('GET_STATUS');
+    await loadStatus();
 })();
