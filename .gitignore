@@ -1,0 +1,20 @@
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# Editores
+.vscode/
+.idea/
+*.swp
+
+# Builds
+*.zip
+*.crx
+*.pem
+dist/
+build/
+
+# Logs
+*.log
+npm-debug.log*
