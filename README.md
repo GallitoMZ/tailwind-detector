@@ -2,11 +2,11 @@
 
 > Extensión de Chrome que detecta automáticamente si un sitio usa Tailwind CSS, identifica la versión, y enciende el icono en tiempo real.
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue)
-![License](https://img.shields.io/badge/license-MIT-green)
+[![License: MIT](https://img.shields.io/github/license/GallitoMZ/tailwind-detector?color=green)](LICENSE.md)
+[![Latest Release](https://img.shields.io/github/v/release/GallitoMZ/tailwind-detector)](https://github.com/GallitoMZ/tailwind-detector/releases)
+[![Stars](https://img.shields.io/github/stars/GallitoMZ/tailwind-detector?style=social)](https://github.com/GallitoMZ/tailwind-detector/stargazers)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange)
 
-<!-- Screenshot principal aquí -->
 ![Preview](screenshots/detected-light.png)
 
 ## Características
