@@ -55,14 +55,14 @@ Si el comentario no aparece en el CSSOM (los navegadores lo descartan), fetchea 
 
 ## Estructura
 
-\`\`\`
+```
 src/
-├── manifest.json    # Configuración de la extensión
-├── background.js    # Service worker (icono, cache por pestaña)
-├── content.js       # Script inyectado (detección)
-├── popup.html/css/js # UI del popup
-└── icons/           # Iconos activos/inactivos en 16, 48, 128px
-\`\`\`
+├── manifest.json      # Configuración de la extensión
+├── background.js      # Service worker (icono, cache por pestaña)
+├── content.js         # Script inyectado (detección)
+├── popup.html/css/js  # UI del popup
+└── icons/             # Iconos activos/inactivos en 16, 48, 128px
+```
 
 ## Contribuir
 
