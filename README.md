@@ -6,6 +6,7 @@
 [![Latest Release](https://img.shields.io/github/v/release/GallitoMZ/tailwind-detector)](https://github.com/GallitoMZ/tailwind-detector/releases)
 [![Stars](https://img.shields.io/github/stars/GallitoMZ/tailwind-detector?style=social)](https://github.com/GallitoMZ/tailwind-detector/stargazers)
 ![Manifest](https://img.shields.io/badge/manifest-v3-orange)
+[![Chrome Web Store](https://img.shields.io/badge/Chrome%20Web%20Store-disponible-06B6D4?logo=googlechrome&logoColor=white)](https://chromewebstore.google.com/detail/ekhcfihiokhafofblckaccfeaefljdli)
 
 ![Preview](screenshots/detected-light.png)
 
@@ -22,11 +23,11 @@
 
 ### Desde la Chrome Web Store
 
-[Enlace pendiente de publicación]
+[![Disponible en Chrome Web Store](https://img.shields.io/chrome-web-store/v/ekhcfihiokhafofblckaccfeaefljdli?label=Chrome%20Web%20Store&logo=googlechrome&color=06B6D4)](https://chromewebstore.google.com/detail/ekhcfihiokhafofblckaccfeaefljdli)
 
 ### Modo desarrollador
 
-1. Clona el repo: `git clone https://github.com/tuusuario/tailwind-detector.git`
+1. Clona el repo: `git clone https://github.com/GallitoMZ/tailwind-detector.git`
 2. Abre `chrome://extensions`
 3. Activa el **Modo desarrollador** (arriba a la derecha)
 4. Click en **Cargar descomprimida** → selecciona la carpeta `src/`
@@ -78,4 +79,4 @@ Cero recolección de datos. Detalles en [PRIVACY.md](PRIVACY.md).
 
 ## Licencia
 
-MIT © [Tu nombre](https://github.com/tuusuario)
+MIT © [GallitoMZ](https://github.com/GallitoMZ)

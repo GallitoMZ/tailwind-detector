@@ -9,3 +9,7 @@
 - Icono reactivo por pestaña con badge `✓`
 - Popup con tema claro/oscuro
 - Cache por sesión para apertura instantánea del popup
+
+### Links
+- **Chrome Web Store**: [Tailwind Detector](https://chromewebstore.google.com/detail/ekhcfihiokhafofblckaccfeaefljdli)
+- **GitHub**: [GallitoMZ/tailwind-detector](https://github.com/GallitoMZ/tailwind-detector)
