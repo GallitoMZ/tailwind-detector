@@ -4,8 +4,7 @@
     const VERSION_COMMENT_RE = /tailwindcss\s+v?(\d+\.\d+\.\d+)/i;
     const HREF_VERSION_PATTERNS = [
         /tailwind(?:css)?[@\/\-]v?(\d+\.\d+\.\d+)/i,
-        /[?&](?:v|ver|version)=(\d+\.\d+\.\d+)/i,
-        /tailwindcss.*?[?&](?:v|ver|version)=(\d+\.\d+\.\d+)/i,
+        /tailwind(?:css)?.*?[?&](?:v|ver|version)=(\d+\.\d+\.\d+)/i,
     ];
 
     const V4_THEME_TOKEN_RE =

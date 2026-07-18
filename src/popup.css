@@ -374,3 +374,26 @@ body {
         transform: scale(1) translateY(-2px);
     }
 }
+
+/* Open source link */
+.oss-link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 5px;
+    margin-top: 8px;
+    padding: 4px 0;
+    font-size: 11px;
+    color: var(--text-muted);
+    text-decoration: none;
+    transition: color 0.15s ease;
+}
+
+.oss-link:hover {
+    color: var(--text);
+}
+
+.oss-link__icon {
+    width: 12px;
+    height: 12px;
+}

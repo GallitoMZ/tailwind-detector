@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Tailwind Detector",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Detecta automáticamente si un sitio usa Tailwind CSS, muestra la versión y enciende el icono en tiempo real.",
   "author": "Gato Salvaje",
   "minimum_chrome_version": "102",

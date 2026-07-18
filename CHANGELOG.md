@@ -1,5 +1,13 @@
 # Changelog
 
+## [1.0.1] — 2026-07-15
+
+### Fixed
+- Corregido falso positivo de versión en sitios que usan `?v=X.X.X` como cache buster en sus hojas de estilo.
+
+### Added
+- Link a GitHub en el popup (open source)
+
 ## [1.0.0] — 2026-07-12
 
 ### Added
