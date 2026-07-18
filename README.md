@@ -18,6 +18,7 @@
 - 🌓 **Tema claro/oscuro** — respeta la preferencia del sistema
 - ⚡ **Rápido** — fetch paralelo con priorización inteligente, cache por sesión
 - 🔒 **Sin telemetría** — todo el análisis ocurre localmente
+- 🌐 **Inglés y español** — detecta el idioma del navegador automáticamente
 
 ## Instalación
 
@@ -57,11 +58,14 @@ Si el comentario no aparece en el CSSOM (los navegadores lo descartan), fetchea 
 
 ```
 src/
-├── manifest.json      # Configuración de la extensión
-├── background.js      # Service worker (icono, cache por pestaña)
-├── content.js         # Script inyectado (detección)
-├── popup.html/css/js  # UI del popup
-└── icons/             # Iconos activos/inactivos en 16, 48, 128px
+├── _locales/
+│   ├── en/messages.json   # English (default)
+│   └── es/messages.json   # Español
+├── manifest.json          # Configuración de la extensión
+├── background.js          # Service worker (icono, cache por pestaña)
+├── content.js             # Script inyectado (detección)
+├── popup.html/css/js      # UI del popup
+└── icons/                 # Iconos activos/inactivos en 16, 48, 128px
 ```
 
 ## Contribuir
