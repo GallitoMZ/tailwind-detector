@@ -51,6 +51,7 @@ function renderStatus(data) {
         hostValue.textContent = t('protectedPage');
         hostValue.title = '';
         versionPill.hidden = true;
+        versionPill.title = '';
         return;
     }
 
@@ -63,10 +64,16 @@ function renderStatus(data) {
                 ? `v${data.major}.x`
                 : '';
         versionPill.hidden = !(data.version || data.major);
+        versionPill.title = data.version
+            ? ''
+            : data.major
+                ? t('versionApprox')
+                : '';
     } else {
         app.dataset.state = 'not-detected';
         statusTitle.textContent = t('notDetected');
         versionPill.hidden = true;
+        versionPill.title = '';
     }
 
     hostValue.textContent = data.hostname || '—';
@@ -98,7 +105,6 @@ async function requestFreshStatus(tabId, type = 'GET_STATUS') {
     }
 }
 
-// Compara sin timestamp para evitar re-renders innecesarios
 function statusEquals(a, b) {
     if (!a || !b) return a === b;
     return (
@@ -119,7 +125,6 @@ async function loadStatus({ forceFresh = false } = {}) {
 
     let displayed = null;
 
-    // 1. Mostrar cache inmediatamente si existe
     if (!forceFresh) {
         const cached = await getCachedStatus(tab.id);
         if (cached) {
@@ -128,7 +133,6 @@ async function loadStatus({ forceFresh = false } = {}) {
         }
     }
 
-    // 2. Pedir estado fresco al content script y actualizar solo si cambió
     const fresh = await requestFreshStatus(
         tab.id,
         forceFresh ? 'REFRESH' : 'GET_STATUS'

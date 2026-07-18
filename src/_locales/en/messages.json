@@ -29,6 +29,9 @@
     "openSourceOnGitHub": {
         "message": "Open Source on GitHub"
     },
+    "versionApprox": {
+        "message": "Approximate version — exact version not available in the compiled CSS"
+    },
     "tooltipDetected": {
         "message": "Tailwind CSS detected $VERSION$",
         "placeholders": {

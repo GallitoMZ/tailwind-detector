@@ -8,13 +8,13 @@
     ];
 
     const V4_THEME_TOKEN_RE =
-        /--(?:color-(?:red|blue|green|slate|gray|zinc|neutral|stone|orange|amber|yellow|lime|emerald|teal|cyan|sky|indigo|violet|purple|fuchsia|pink|rose)-\d+|spacing-\d+|font-weight-(?:thin|light|normal|medium|semibold|bold|black)|radius-(?:xs|sm|md|lg|xl|2xl|3xl)|text-(?:xs|sm|base|lg|xl|2xl))\s*:/;
+        /--(?:color-(?:red|blue|green|slate|gray|zinc|neutral|stone|orange|amber|yellow|lime|emerald|teal|cyan|sky|indigo|violet|purple|fuchsia|pink|rose)-\d+|spacing-\d+|font-weight-(?:thin|light|normal|medium|semibold|bold|black)|radius-(?:xs|sm|md|lg|xl|2xl|3xl)|text-(?:xs|sm|base|lg|xl|2xl)|shadow-(?:xs|sm|md|lg|xl|2xl)|inset-shadow-(?:xs|sm|md|lg|xl|2xl)|breakpoint-(?:sm|md|lg|xl|2xl))\s*:/;
 
     const FETCH_TIMEOUT_MS = 2500;
     const MAX_STYLESHEETS_TO_FETCH = 12;
 
     let cache = null;
-    const fetchedHrefs = new Map(); // href → version | false
+    const fetchedHrefs = new Map();
 
     function safeRules(sheet) {
         try {
@@ -168,7 +168,6 @@
 
         if (links.length === 0) return null;
 
-        // Estrategia: los hrefs con "tailwind" en la URL casi seguro tienen el comentario,
         // los buscamos primero en serie con early exit para no esperar los demás.
         const priority = links.filter(({ href }) => /tailwind/i.test(href));
         for (const { href } of priority) {
@@ -234,11 +233,20 @@
         setTimeout(() => {
             analyzeSync();
             enrichWithExactVersion();
+
+            // Si no detectó nada, reintentar una vez más (SPAs pesadas)
+            if (!cache?.detected) {
+                setTimeout(() => {
+                    analyzeSync();
+                    enrichWithExactVersion();
+                }, 2000);
+            }
         }, 600);
     };
     if (document.readyState === 'complete') runInitial();
     else window.addEventListener('load', runInitial);
 
+    // Re-analizar cuando se inyectan nuevos estilos (SPAs, HMR, hydration)
     let recheckTimer = null;
     const observer = new MutationObserver((mutations) => {
         const relevant = mutations.some((m) =>
@@ -247,7 +255,8 @@
                     n.nodeType === 1 &&
                     (n.tagName === 'STYLE' ||
                         n.tagName === 'LINK' ||
-                        n.querySelector?.('style, link[rel="stylesheet"]'))
+                        (n.querySelectorAll &&
+                            n.querySelectorAll('style, link[rel="stylesheet"]').length > 0))
             )
         );
         if (!relevant) return;
@@ -263,6 +272,26 @@
         subtree: true,
     });
 
+    // Detectar cambio de URL en SPAs (pushState/replaceState)
+    let lastUrl = location.href;
+    const urlObserver = new MutationObserver(() => {
+        if (location.href !== lastUrl) {
+            lastUrl = location.href;
+            cache = null;
+            fetchedHrefs.clear();
+            setTimeout(() => {
+                analyzeSync();
+                enrichWithExactVersion();
+            }, 800);
+        }
+    });
+    urlObserver.observe(document.querySelector('title') || document.head, {
+        childList: true,
+        subtree: true,
+        characterData: true,
+    });
+
+    // Comunicación con el popup
     chrome.runtime.onMessage.addListener((msg, _sender, sendResponse) => {
         if (msg?.type === 'GET_STATUS' || msg?.type === 'REFRESH') {
             (async () => {
