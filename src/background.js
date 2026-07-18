@@ -30,8 +30,10 @@ async function updateAction(tabId, data) {
         await chrome.action.setTitle({
             tabId,
             title: detected
-                ? `Tailwind CSS detectado ${versionLabel}`.trim()
-                : 'No se detectó Tailwind CSS',
+                ? chrome.i18n.getMessage('tooltipDetected', versionLabel) ||
+                `Tailwind CSS detected ${versionLabel}`.trim()
+                : chrome.i18n.getMessage('tooltipNotDetected') ||
+                'Tailwind CSS not detected',
         });
 
         if (detected) {
@@ -73,7 +75,7 @@ chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
             .get(storageKey(msg.tabId))
             .then((result) => sendResponse(result[storageKey(msg.tabId)] || null))
             .catch(() => sendResponse(null));
-        return true; // async
+        return true;
     }
 });
 

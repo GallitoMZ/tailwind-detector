@@ -1,0 +1,44 @@
+{
+    "extName": {
+        "message": "Tailwind Detector"
+    },
+    "extDescription": {
+        "message": "Automatically detects if a website uses Tailwind CSS, shows the version, and lights up the icon in real time."
+    },
+    "loading": {
+        "message": "Analyzing…"
+    },
+    "detected": {
+        "message": "Tailwind detected"
+    },
+    "notDetected": {
+        "message": "Tailwind not found"
+    },
+    "unavailable": {
+        "message": "Analysis not available"
+    },
+    "protectedPage": {
+        "message": "Protected page"
+    },
+    "refresh": {
+        "message": "Analyze again"
+    },
+    "changeTheme": {
+        "message": "Change theme"
+    },
+    "openSourceOnGitHub": {
+        "message": "Open Source on GitHub"
+    },
+    "tooltipDetected": {
+        "message": "Tailwind CSS detected $VERSION$",
+        "placeholders": {
+            "version": {
+                "content": "$1",
+                "example": "v4.0.14"
+            }
+        }
+    },
+    "tooltipNotDetected": {
+        "message": "Tailwind CSS not detected"
+    }
+}

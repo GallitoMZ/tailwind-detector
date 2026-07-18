@@ -1,6 +1,8 @@
 'use strict';
 
 const $ = (id) => document.getElementById(id);
+const t = (key, ...subs) => chrome.i18n.getMessage(key, subs) || key;
+
 const app = $('app');
 const statusTitle = $('statusTitle');
 const versionPill = $('versionPill');
@@ -11,6 +13,17 @@ const themeToggle = $('themeToggle');
 
 const isRestrictedUrl = (url) =>
     !url || /^(chrome|edge|about|chrome-extension):/i.test(url);
+
+// -------- i18n ----------
+function applyI18n() {
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+        el.textContent = t(el.dataset.i18n);
+    });
+    document.querySelectorAll('[data-i18n-title]').forEach((el) => {
+        el.title = t(el.dataset.i18nTitle);
+        el.setAttribute('aria-label', t(el.dataset.i18nTitle));
+    });
+}
 
 // -------- Tema ----------
 async function initTheme() {
@@ -34,8 +47,8 @@ themeToggle.addEventListener('click', async () => {
 function renderStatus(data) {
     if (!data) {
         app.dataset.state = 'unavailable';
-        statusTitle.textContent = 'Análisis no disponible';
-        hostValue.textContent = 'Página protegida';
+        statusTitle.textContent = t('unavailable');
+        hostValue.textContent = t('protectedPage');
         hostValue.title = '';
         versionPill.hidden = true;
         return;
@@ -43,7 +56,7 @@ function renderStatus(data) {
 
     if (data.detected) {
         app.dataset.state = 'detected';
-        statusTitle.textContent = 'Tailwind detectado';
+        statusTitle.textContent = t('detected');
         versionValue.textContent = data.version
             ? `v${data.version}`
             : data.major
@@ -52,7 +65,7 @@ function renderStatus(data) {
         versionPill.hidden = !(data.version || data.major);
     } else {
         app.dataset.state = 'not-detected';
-        statusTitle.textContent = 'Tailwind no encontrado';
+        statusTitle.textContent = t('notDetected');
         versionPill.hidden = true;
     }
 
@@ -133,7 +146,7 @@ async function loadStatus({ forceFresh = false } = {}) {
 refreshBtn.addEventListener('click', async () => {
     refreshBtn.classList.add('is-refreshing');
     app.dataset.state = 'loading';
-    statusTitle.textContent = 'Analizando…';
+    statusTitle.textContent = t('loading');
     versionPill.hidden = true;
 
     await new Promise((r) => setTimeout(r, 400));
@@ -144,6 +157,7 @@ refreshBtn.addEventListener('click', async () => {
 
 // -------- Init ----------
 (async function init() {
+    applyI18n();
     await initTheme();
     await loadStatus();
 })();

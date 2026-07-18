@@ -1,9 +1,10 @@
 {
   "manifest_version": 3,
-  "name": "Tailwind Detector",
-  "version": "1.0.1",
-  "description": "Detecta automáticamente si un sitio usa Tailwind CSS, muestra la versión y enciende el icono en tiempo real.",
-  "author": "Gato Salvaje",
+  "name": "__MSG_extName__",
+  "description": "__MSG_extDescription__",
+  "default_locale": "en",
+  "version": "1.0.2",
+  "author": "GallitoMZ",
   "minimum_chrome_version": "102",
   "permissions": ["activeTab", "scripting", "storage"],
   "background": {
@@ -16,7 +17,7 @@
       "48": "icons/icon-inactivo-48.png",
       "128": "icons/icon-inactivo-128.png"
     },
-    "default_title": "Tailwind Detector"
+    "default_title": "__MSG_extName__"
   },
   "content_scripts": [
     {
