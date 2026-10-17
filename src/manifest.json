@@ -3,12 +3,11 @@
   "name": "__MSG_extName__",
   "description": "__MSG_extDescription__",
   "default_locale": "en",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "author": "GallitoMZ",
   "minimum_chrome_version": "102",
   "permissions": [
     "activeTab",
-    "scripting",
     "storage"
   ],
   "background": {

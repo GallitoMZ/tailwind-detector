@@ -1,5 +1,16 @@
 # Changelog
 
+## [1.0.3] — 2026-10-16
+
+### Added
+- Versión detectada directamente en el badge del icono de la barra de herramientas (`v4.0`, `v3.4`, `v4`, etc.)
+- Rediseño completo de la interfaz del popup con estética **Inspector HUD** (modo claro y oscuro de alto contraste, visor de diagnóstico y barra de dominio empotrada)
+- Nuevos iconos de alta precisión (`16px`, `48px`, `128px`) para estados activo e inactivo
+- Capturas y recursos promocionales actualizados en `screenshots/`
+
+### Fixed
+- Eliminado el permiso `scripting` no utilizado en `manifest.json` para cumplir con la política de permisos mínimos de Chrome Web Store (*Purple Potassium*)
+
 ## [1.0.2] — 2026-07-16
 
 ### Added

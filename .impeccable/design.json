@@ -1,0 +1,177 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-16T23:13:30-05:00",
+  "title": "Design System: Tailwind Detector",
+  "extensions": {
+    "colorMeta": {
+      "sky-signal": {
+        "role": "primary",
+        "displayName": "Sky Signal",
+        "canonical": "#0284c7",
+        "tonalRamp": ["#082f49", "#0c4a6e", "#075985", "#0369a1", "#0284c7", "#0ea5e9", "#38bdf8", "#e0f2fe"]
+      },
+      "emerald-beacon": {
+        "role": "secondary",
+        "displayName": "Emerald Beacon",
+        "canonical": "#059669",
+        "tonalRamp": ["#022c22", "#064e3b", "#065f46", "#047857", "#059669", "#10b981", "#34d399", "#ecfdf5"]
+      },
+      "amber-shield": {
+        "role": "tertiary",
+        "displayName": "Amber Shield",
+        "canonical": "#d97706",
+        "tonalRamp": ["#451a03", "#78350f", "#92400e", "#b45309", "#d97706", "#f59e0b", "#fbbf24", "#fffbeb"]
+      },
+      "carbon-void": {
+        "role": "neutral",
+        "displayName": "Carbon Void",
+        "canonical": "#0b0f17",
+        "tonalRamp": ["#070a10", "#0b0f17", "#111827", "#1e293b", "#334155", "#475569", "#94a3b8", "#f8fafc"]
+      },
+      "frost-ground": {
+        "role": "neutral",
+        "displayName": "Frost Ground",
+        "canonical": "#f8fafc",
+        "tonalRamp": ["#0f172a", "#1e293b", "#334155", "#475569", "#64748b", "#cbd5e1", "#e2e8f0", "#f8fafc"]
+      }
+    },
+    "typographyMeta": {
+      "headline": {
+        "displayName": "Status Headline",
+        "purpose": "Primary detection state title inside the readout bay."
+      },
+      "title": {
+        "displayName": "Instrument Title & Control Label",
+        "purpose": "Top bar extension name and primary tactile action button label."
+      },
+      "body": {
+        "displayName": "Console Domain Readout",
+        "purpose": "Inspected hostname inside the recessed domain well."
+      },
+      "label": {
+        "displayName": "Tabular Version Chip",
+        "purpose": "Monospace version tag (v4.0.14 / v4.x) with tabular numerals."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-card",
+        "value": "0 2px 6px -1px rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.04)",
+        "purpose": "Lifts the central readout bay off the instrument chassis."
+      },
+      {
+        "name": "shadow-btn",
+        "value": "0 1px 2px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8)",
+        "purpose": "Physical keycap bevel on tactile buttons and brand badge."
+      },
+      {
+        "name": "shadow-well",
+        "value": "inset 0 1px 2px rgba(15, 23, 42, 0.05)",
+        "purpose": "Recessed inner depth for the console domain bar."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out-expo",
+        "value": "cubic-bezier(0.16, 1, 0.3, 1)",
+        "purpose": "Snappy exponential ease-out for state beacon icons, button hover/press, and refresh rotation."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "popup",
+        "value": "320px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Tactile Re-Analyze Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Full-width keycap button with top highlight bevel, icon rotation on refresh, and 1px active press.",
+      "html": "<button type=\"button\" class=\"ds-btn-primary\"><svg class=\"ds-btn-icon\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M3 12a9 9 0 0 1 15.5-6.3L21 8\"/><path d=\"M21 3v5h-5\"/><path d=\"M21 12a9 9 0 0 1-15.5 6.3L3 16\"/><path d=\"M8 21H3v-5\"/></svg><span class=\"ds-btn-label\">Volver a analizar</span></button>",
+      "css": ".ds-btn-primary { display: inline-flex; align-items: center; justify-content: center; gap: 7px; width: 100%; padding: 9px 12px; border: 1px solid var(--border-strong, #cbd5e1); border-radius: 9px; background-color: var(--surface, #ffffff); color: var(--text, #0f172a); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8); font-size: 12.5px; font-weight: 600; letter-spacing: -0.01em; cursor: pointer; transition: background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s cubic-bezier(0.16, 1, 0.3, 1); } .ds-btn-primary:hover { background-color: var(--surface-hover, #f1f5f9); border-color: var(--text-muted, #475569); } .ds-btn-primary:active { transform: translateY(1px); } .ds-btn-primary:focus-visible { outline: 2px solid var(--focus-ring, #0284c7); outline-offset: 2px; } .ds-btn-icon { width: 14px; height: 14px; }"
+    },
+    {
+      "name": "Theme Switch Keycap",
+      "kind": "button",
+      "refersTo": "button-icon",
+      "description": "Compact 28px square keycap button for toggling light and dark instrument themes.",
+      "html": "<button type=\"button\" class=\"ds-icon-btn\" aria-label=\"Cambiar tema\"><svg width=\"14\" height=\"14\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><circle cx=\"12\" cy=\"12\" r=\"4\"/><path d=\"M12 2v2M12 20v2M4.93 4.93l1.41 1.41M17.66 17.66l1.41 1.41M2 12h2M20 12h2M4.93 19.07l1.41-1.41M17.66 6.34l1.41-1.41\"/></svg></button>",
+      "css": ".ds-icon-btn { display: inline-flex; align-items: center; justify-content: center; width: 28px; height: 28px; border: 1px solid var(--border, #e2e8f0); border-radius: 7px; background-color: var(--surface, #ffffff); color: var(--text-muted, #475569); box-shadow: 0 1px 2px rgba(15, 23, 42, 0.06), inset 0 1px 0 rgba(255, 255, 255, 0.8); cursor: pointer; transition: color 0.18s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), background-color 0.18s cubic-bezier(0.16, 1, 0.3, 1), transform 0.12s cubic-bezier(0.16, 1, 0.3, 1); } .ds-icon-btn:hover { color: var(--text, #0f172a); border-color: var(--border-strong, #cbd5e1); background-color: var(--surface-hover, #f1f5f9); } .ds-icon-btn:active { transform: translateY(1px); } .ds-icon-btn:focus-visible { outline: 2px solid var(--focus-ring, #0284c7); outline-offset: 2px; }"
+    },
+    {
+      "name": "Tabular Version Token Chip",
+      "kind": "chip",
+      "refersTo": "chip-version",
+      "description": "Monospace version badge with live emerald status dot and optical cap-height trimming.",
+      "html": "<span class=\"ds-chip-version\"><span class=\"ds-chip-dot\"></span><span>v4.0.14</span></span>",
+      "css": ".ds-chip-version { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(5, 150, 105, 0.3); background-color: #ecfdf5; color: #047857; font-family: ui-monospace, 'SFMono-Regular', Consolas, monospace; font-size: 11.5px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.02em; } .ds-chip-dot { width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; }"
+    },
+    {
+      "name": "Diagnostic Readout Bay",
+      "kind": "card",
+      "refersTo": "card-readout",
+      "description": "Unified telemetry card pairing the active state beacon and version chip with a recessed domain well.",
+      "html": "<section class=\"ds-readout-bay\"><div class=\"ds-readout-main\"><div class=\"ds-beacon\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"2.5\" stroke-linecap=\"round\" stroke-linejoin=\"round\"><path d=\"M20 6L9 17l-5-5\"/></svg></div><div class=\"ds-status-row\"><h1 class=\"ds-title\">Tailwind detectado</h1><span class=\"ds-pill\"><span class=\"ds-dot\"></span>v4.0.14</span></div></div><div class=\"ds-domain-well\"><span>tailwindcss.com</span></div></section>",
+      "css": ".ds-readout-bay { display: flex; flex-direction: column; border-radius: 12px; background-color: var(--surface, #ffffff); border: 1px solid rgba(5, 150, 105, 0.3); box-shadow: 0 2px 6px -1px rgba(15, 23, 42, 0.06); overflow: hidden; } .ds-readout-main { display: flex; align-items: center; gap: 12px; padding: 14px; } .ds-beacon { display: flex; align-items: center; justify-content: center; width: 44px; height: 44px; border-radius: 10px; border: 1px solid rgba(5, 150, 105, 0.3); background-color: #ecfdf5; color: #059669; flex-shrink: 0; } .ds-status-row { display: flex; align-items: center; justify-content: space-between; gap: 8px; flex: 1; } .ds-title { font-size: 14px; font-weight: 600; color: var(--text, #0f172a); margin: 0; } .ds-pill { display: inline-flex; align-items: center; gap: 5px; padding: 4px 8px; border-radius: 6px; border: 1px solid rgba(5, 150, 105, 0.3); background-color: #ecfdf5; color: #047857; font-family: ui-monospace, monospace; font-size: 11.5px; font-weight: 600; } .ds-dot { width: 6px; height: 6px; border-radius: 50%; background-color: #10b981; } .ds-domain-well { padding: 8px 14px; border-top: 1px solid var(--border, #e2e8f0); background-color: var(--bg-recessed, #f1f5f9); font-family: ui-monospace, monospace; font-size: 11.5px; color: var(--text-muted, #475569); }"
+    },
+    {
+      "name": "Indeterminate Conic Spinner",
+      "kind": "custom",
+      "refersTo": "spinner-loading",
+      "description": "Semantic <progress> activity ring using conic-gradient and border-area clipping.",
+      "html": "<progress class=\"ds-spinner\" aria-label=\"Analizando…\"></progress>",
+      "css": ".ds-spinner { width: 20px; height: 20px; border-radius: 50%; appearance: none; border: 0; background: conic-gradient(from 90deg, #0284c7 158deg, transparent 0) #e2e8f0; mask-image: radial-gradient(farthest-side, transparent calc(100% - 2.2px), black calc(100% - 2.2px)); }"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Precision Inspector HUD",
+    "overview": "Tailwind Detector treats browser extension telemetry like a high-precision developer instrument rather than a marketing widget. Every pixel inside the compact 320px frame is structured for immediate diagnostic scannability: the status beacon, the semantic headline, and the tabular version chip live inside an elevated readout bay, while the inspected hostname sits in a recessed monospace console well below.\n\nThe visual system rejects floating glowing circles, decorative gradients, and ungrounded pill clouds in favor of structural 1px borders, tactile keycap buttons with subtle top highlights, and crisp state-driven semantic accents. Light mode reads like a clean laboratory specification sheet on cool slate paper; dark mode shifts into a deep carbon DevTools chassis.",
+    "keyCharacteristics": [
+      "Instrument Bay Framing: Primary status and domain telemetry share a unified card container (12px radius) split by a structural 1px hairline into an elevated status header and a recessed domain well.",
+      "Tabular Version Telemetry: Version tags (v4.0.14, v4.x) and toolbar badges (v4.0, v3.4) use monospace numerals (tabular-nums) and optical cap-height trimming (text-box: trim-both cap alphabetic).",
+      "Tactile Keycap Controls: Interactive buttons combine a 1px structural border, a soft drop shadow, an inner top highlight bevel, and a physical 1px press translation.",
+      "State-Reactive Semantics: Emerald signals active Tailwind detection, Sky Blue marks clean non-detection or active scanning, and Amber warns of browser-protected pages."
+    ],
+    "rules": [
+      {
+        "name": "The Tinted-Slate Secondary Rule",
+        "body": "Secondary text, icons, and borders must always carry the cool slate undertone (#475569 / #94a3b8) rather than dead neutral gray (#737373), keeping the HUD cohesive across themes.",
+        "section": "colors"
+      },
+      {
+        "name": "The Semantic Exclusivity Rule",
+        "body": "Emerald (#059669 / #34d399) appears only when Tailwind CSS is confirmed on the active page; never use it for generic UI chrome or buttons.",
+        "section": "colors"
+      },
+      {
+        "name": "The Optical Cap-Trim Rule",
+        "body": "All compact badges, brand titles, and button labels apply text-box: trim-both cap alphabetic so vertical padding hugs the visible glyph bounds with zero ghost leading.",
+        "section": "typography"
+      },
+      {
+        "name": "The Tabular Version Rule",
+        "body": "Version strings in both the popup pill and toolbar badge use monospace or tabular-nums so digit widths never jitter during state updates.",
+        "section": "typography"
+      },
+      {
+        "name": "The No-Halo Rule",
+        "body": "Never use zero-offset colored blur halos (0 0 20px) around status icons; communicate state through crisp 1px border tints and high-contrast surface fills.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do keep the popup focused strictly on the core diagnostic facts (detection state, version badge, active hostname, re-analyze trigger, theme toggle, and GitHub link).",
+      "Do format the toolbar icon badge (chrome.action.setBadgeText) with the concise version string (v4.0, v3.4, or v4) on a high-contrast Sky Signal (#0284C7) background with white (#FFFFFF) text.",
+      "Do use text-box: trim-both cap alphabetic on compact labels and badges so vertical alignment with icons is optically centered.",
+      "Do honor prefers-reduced-motion: reduce by slowing the indeterminate <progress> spinner rotation (6s) and collapsing transition durations."
+    ],
+    "donts": [
+      "Don't add uppercase kicker or eyebrow labels above #statusTitle; let the status heading and version chip carry the hierarchy directly.",
+      "Don't use circular 50% radial glow orbs or 999px pill containers where the 6px–12px technical squircle grammar belongs.",
+      "Don't introduce external runtime dependencies, webfont network requests, or inline scripts that violate Manifest V3 CSP."
+    ]
+  }
+}

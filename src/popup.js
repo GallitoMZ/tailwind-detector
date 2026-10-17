@@ -1,7 +1,7 @@
 'use strict';
 
 const $ = (id) => document.getElementById(id);
-const t = (key, ...subs) => chrome.i18n.getMessage(key, subs) || key;
+const t = (key, ...subs) => chrome.i18n?.getMessage?.(key, subs) || key;
 
 const app = $('app');
 const statusTitle = $('statusTitle');
@@ -10,6 +10,7 @@ const versionValue = $('versionValue');
 const hostValue = $('hostValue');
 const refreshBtn = $('refreshBtn');
 const themeToggle = $('themeToggle');
+const loadingSpinner = $('loadingSpinner');
 
 const isRestrictedUrl = (url) =>
     !url || /^(chrome|edge|about|chrome-extension):/i.test(url);
@@ -20,26 +21,42 @@ function applyI18n() {
         el.textContent = t(el.dataset.i18n);
     });
     document.querySelectorAll('[data-i18n-title]').forEach((el) => {
-        el.title = t(el.dataset.i18nTitle);
-        el.setAttribute('aria-label', t(el.dataset.i18nTitle));
+        const label = t(el.dataset.i18nTitle);
+        el.title = label;
+        el.setAttribute('aria-label', label);
     });
+    if (loadingSpinner) {
+        loadingSpinner.setAttribute('aria-label', t('loading'));
+    }
 }
 
 // -------- Tema ----------
+function applyTheme(mode) {
+    document.documentElement.setAttribute('data-theme', mode);
+    const meta = document.querySelector('meta[name="color-scheme"]');
+    if (meta) {
+        meta.content = mode;
+    }
+}
+
 async function initTheme() {
     const { theme } = await chrome.storage.local.get('theme');
-    const prefersDark =
-        window.matchMedia?.('(prefers-color-scheme: dark)').matches ?? false;
-    document.documentElement.setAttribute(
-        'data-theme',
-        theme || (prefersDark ? 'dark' : 'light')
-    );
+    const mediaQuery = window.matchMedia?.('(prefers-color-scheme: dark)');
+    const prefersDark = mediaQuery?.matches ?? false;
+    applyTheme(theme || (prefersDark ? 'dark' : 'light'));
+
+    mediaQuery?.addEventListener?.('change', async (e) => {
+        const stored = await chrome.storage.local.get('theme');
+        if (!stored.theme) {
+            applyTheme(e.matches ? 'dark' : 'light');
+        }
+    });
 }
 
 themeToggle.addEventListener('click', async () => {
     const current = document.documentElement.getAttribute('data-theme');
     const next = current === 'dark' ? 'light' : 'dark';
-    document.documentElement.setAttribute('data-theme', next);
+    applyTheme(next);
     await chrome.storage.local.set({ theme: next });
 });
 
@@ -148,6 +165,8 @@ async function loadStatus({ forceFresh = false } = {}) {
 }
 
 refreshBtn.addEventListener('click', async () => {
+    if (refreshBtn.disabled) return;
+    refreshBtn.disabled = true;
     refreshBtn.classList.add('is-refreshing');
     app.dataset.state = 'loading';
     statusTitle.textContent = t('loading');
@@ -156,7 +175,10 @@ refreshBtn.addEventListener('click', async () => {
     await new Promise((r) => setTimeout(r, 400));
     await loadStatus({ forceFresh: true });
 
-    setTimeout(() => refreshBtn.classList.remove('is-refreshing'), 500);
+    setTimeout(() => {
+        refreshBtn.classList.remove('is-refreshing');
+        refreshBtn.disabled = false;
+    }, 500);
 });
 
 // -------- Init ----------

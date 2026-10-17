@@ -13,6 +13,22 @@ const ICON_INACTIVE = {
 
 const storageKey = (tabId) => `status_${tabId}`;
 
+function formatBadgeVersion(data) {
+    if (!data?.detected) return '';
+    if (data.version) {
+        const parts = String(data.version).trim().replace(/^v/i, '').split('.');
+        if (parts.length >= 2) {
+            const withV = `v${parts[0]}.${parts[1]}`;
+            return withV.length <= 4 ? withV : `${parts[0]}.${parts[1]}`;
+        }
+        return `v${parts[0]}`;
+    }
+    if (data.major) {
+        return `v${data.major}`;
+    }
+    return 'TW';
+}
+
 async function updateAction(tabId, data) {
     const detected = !!data?.detected;
     try {
@@ -37,8 +53,12 @@ async function updateAction(tabId, data) {
         });
 
         if (detected) {
-            await chrome.action.setBadgeText({ tabId, text: '✓' });
-            await chrome.action.setBadgeBackgroundColor({ tabId, color: '#06B6D4' });
+            const badgeText = formatBadgeVersion(data);
+            await chrome.action.setBadgeText({ tabId, text: badgeText });
+            await chrome.action.setBadgeBackgroundColor({ tabId, color: '#0284C7' });
+            if (chrome.action.setBadgeTextColor) {
+                await chrome.action.setBadgeTextColor({ tabId, color: '#FFFFFF' });
+            }
         } else {
             await chrome.action.setBadgeText({ tabId, text: '' });
         }
@@ -63,20 +83,27 @@ async function clearStatus(tabId) {
 chrome.runtime.onMessage.addListener((msg, sender, sendResponse) => {
     if (msg?.type === 'TW_STATUS') {
         const tabId = sender.tab?.id;
-        if (typeof tabId !== 'number') return;
+        if (typeof tabId !== 'number') return false;
         updateAction(tabId, msg.payload);
         persistStatus(tabId, msg.payload);
-        return;
+        return false;
     }
 
     // El popup pide el último estado conocido
     if (msg?.type === 'GET_CACHED_STATUS' && typeof msg.tabId === 'number') {
-        chrome.storage.session
-            .get(storageKey(msg.tabId))
-            .then((result) => sendResponse(result[storageKey(msg.tabId)] || null))
-            .catch(() => sendResponse(null));
+        (async () => {
+            try {
+                const key = storageKey(msg.tabId);
+                const result = await chrome.storage.session.get(key);
+                sendResponse(result[key] || null);
+            } catch {
+                sendResponse(null);
+            }
+        })();
         return true;
     }
+
+    return false;
 });
 
 // Reset visual + cache cuando la pestaña navega a otra URL
